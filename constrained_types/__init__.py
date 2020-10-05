@@ -1,13 +1,27 @@
-from typing import Any, Tuple, Callable, List, NoReturn, ClassVar
+from typing import Any, Tuple, Callable, List, ClassVar, Type
+
+ConstraintFunc = Callable[[int], bool]
 
 
 class UnmetConstraintError(RuntimeError):
     pass
 
 
+def add_constraint(func: ConstraintFunc, err_msg: str):
+    def decorate(original_class):
+        new_constraints = original_class._constraints + [(func, err_msg)]
+
+        class NewClass(original_class):  # type: ignore
+            _constraints = new_constraints
+
+        return NewClass
+
+    return decorate
+
+
 class ConstrainedInt(int):
     _raw_value: Any
-    _constraints: ClassVar[List[Tuple[Callable[[int], bool], str]]] = []
+    _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
 
     def __init__(self, value: Any):
         self._raw_value = value

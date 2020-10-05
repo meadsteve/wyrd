@@ -1,10 +1,11 @@
 import pytest
 
-from constrained_types import ConstrainedInt, UnmetConstraintError
+from constrained_types import ConstrainedInt, UnmetConstraintError, add_constraint
 
 
+@add_constraint(lambda x: x == 3, "Only 3 is 3")
 class NumberThree(ConstrainedInt):
-    _constraints = [(lambda x: x == 3, "Only 3 is 3")]
+    pass
 
 
 def test_its_equal_to_an_int():
