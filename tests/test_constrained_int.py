@@ -8,6 +8,12 @@ class NumberThree(ConstrainedInt):
     pass
 
 
+@add_constraint(lambda x: x >= 1, "must be greater than or equal to 1")
+@add_constraint(lambda x: x <= 10, "must be less than or equal to 10")
+class OneToTen(ConstrainedInt):
+    pass
+
+
 def test_its_equal_to_an_int():
     assert ConstrainedInt(5) == 5
 
@@ -16,11 +22,33 @@ def test_it_sums_like_an_int():
     assert ConstrainedInt(5) + ConstrainedInt(6) == ConstrainedInt(11)
 
 
-def test_if_a_constraint_is_defined_and_valid_everything_works():
-    assert NumberThree(3) == 3
+@pytest.mark.parametrize(
+    "cls,value",
+    [(NumberThree, 3), (OneToTen, 6)],
+)
+def test_if_a_constraint_is_defined_and_valid_everything_works(cls, value):
+    assert cls(value) == value
 
 
-def test_if_a_constraint_isnt_met_on_construction_an_exception_is_raised():
+@pytest.mark.parametrize(
+    "cls,value,expected_error",
+    [
+        (NumberThree, 4, "Only 3 is 3"),
+        (OneToTen, 0, "must be greater than or equal to 1"),
+        (OneToTen, 11, "must be less than or equal to 10"),
+    ],
+)
+def test_if_a_constraint_isnt_met_on_construction_an_exception_is_raised(
+    cls, value, expected_error
+):
     with pytest.raises(UnmetConstraintError) as err:
-        NumberThree(4)
-    assert str(err.value) == "Only 3 is 3"
+        cls(value)
+    assert str(err.value) == expected_error
+
+
+@pytest.mark.parametrize(
+    "a,b", [(OneToTen(5), OneToTen(6)), (OneToTen(5), 6), (5, OneToTen(6))]
+)
+def test_adding_ints_together_keeps_the_constraints(a, b):
+    with pytest.raises(UnmetConstraintError):
+        a + b

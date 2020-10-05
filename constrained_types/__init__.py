@@ -33,3 +33,9 @@ class ConstrainedInt(int):
         for (is_valid, err_msg) in cls._constraints:
             if not is_valid(value):
                 raise UnmetConstraintError(err_msg)
+
+    def __add__(self, other):
+        return self.__class__(self._raw_value + other)
+
+    def __radd__(self, other):
+        return self.__class__(self._raw_value + other)
