@@ -4,11 +4,7 @@ from constrained_types import ConstrainedInt, UnmetConstraintError
 
 
 class NumberThree(ConstrainedInt):
-    @classmethod
-    def _validate(cls, value: int):
-        if value != 3:
-            return False, "Only 3 is 3"
-        return True, ""
+    _constraints = [(lambda x: x == 3, "Only 3 is 3")]
 
 
 def test_its_equal_to_an_int():
