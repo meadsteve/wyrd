@@ -5,11 +5,9 @@ from .helpers import validate
 
 
 class ConstrainedInt(int, Constrained):
-    _raw_value: Any
     _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
 
     def __init__(self, value: Any):
-        self._raw_value = value
         super().__init__()
         self._validate(self)
 
@@ -24,11 +22,9 @@ class ConstrainedInt(int, Constrained):
 
 
 class ConstrainedString(str, Constrained):
-    _raw_value: Any
     _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
 
     def __init__(self, value: Any):
-        self._raw_value = value
         super().__init__()
         self._validate(self)
 
