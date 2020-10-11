@@ -48,6 +48,20 @@ class ConstrainedInt(int, Constrained):
         _validate(value, cls._constraints)
 
 
+class ConstrainedString(str, Constrained):
+    _raw_value: Any
+    _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
+
+    def __init__(self, value: Any):
+        self._raw_value = value
+        super().__init__()
+        self._validate(self)
+
+    @classmethod
+    def _validate(cls: Type[T], value: T):
+        _validate(value, cls._constraints)
+
+
 def _validate(value: T, constraints: List[Tuple[ConstraintFunc, str]]):
     for (is_valid, err_msg) in constraints:
         if not is_valid(value):
