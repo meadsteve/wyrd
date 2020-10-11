@@ -83,3 +83,8 @@ class Order(BaseModel):
     book_id: BookId
 ```
 
+## Why not use the pydantic version of these constrained types?
+The pydantic types only really work with pydantic. Invalid instances
+can be created by constructing directly. Since constraint checking
+is triggered by the constructor the constraints will *always* be
+true for any instance of the class.
