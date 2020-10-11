@@ -10,7 +10,7 @@ T = TypeVar("T", bound="Constrained")
 ConstraintFunc = Callable[[T], bool]
 
 
-class UnmetConstraintError(RuntimeError):
+class UnmetConstraintError(ValueError):
     pass
 
 

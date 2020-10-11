@@ -17,6 +17,11 @@ class ConstrainedInt(int, Constrained):
     def _validate(cls: Type[T], value: T):
         validate(value, cls._constraints)
 
+    # For integration with pydantic
+    @classmethod
+    def __get_validators__(cls):
+        yield cls._validate
+
 
 class ConstrainedString(str, Constrained):
     _raw_value: Any
@@ -30,3 +35,8 @@ class ConstrainedString(str, Constrained):
     @classmethod
     def _validate(cls: Type[T], value: T):
         validate(value, cls._constraints)
+
+    # For integration with pydantic
+    @classmethod
+    def __get_validators__(cls):
+        yield cls._validate
