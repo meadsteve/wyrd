@@ -1,3 +1,4 @@
+import functools
 from typing import TypeVar, Callable, ClassVar, List, Tuple, Type
 
 try:
@@ -16,11 +17,7 @@ class UnmetConstraintError(ValueError):
 
 def add_constraint(func: ConstraintFunc, err_msg: str):
     def decorate(original_class):
-        if not (
-            hasattr(original_class, "_constraints")
-            and hasattr(original_class, "_validate")
-        ):
-            raise SyntaxError("Class must implement Constrained protocol")
+        _assert_implements_constrained_protocol(original_class)
         new_constraints = [(func, err_msg)] + original_class._constraints
 
         class NewClass(original_class):  # type: ignore
@@ -29,6 +26,25 @@ def add_constraint(func: ConstraintFunc, err_msg: str):
         return NewClass
 
     return decorate
+
+
+def cache_constraint_results(maxsize, typed=False):
+    def decorate(original_class):
+        _assert_implements_constrained_protocol(original_class)
+
+        class NewClass(original_class):  # type: ignore
+            @functools.lru_cache(maxsize, typed)
+            def _validate(self, value):
+                super()._validate(value)
+
+        return NewClass
+
+    return decorate
+
+
+def _assert_implements_constrained_protocol(clas: Type):
+    if not (hasattr(clas, "_constraints") and hasattr(clas, "_validate")):
+        raise SyntaxError("Class must implement Constrained protocol")
 
 
 class Constrained(Protocol):
