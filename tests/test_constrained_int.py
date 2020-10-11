@@ -1,6 +1,6 @@
 import pytest
 
-from constrained_types import ConstrainedInt, UnmetConstraintError, add_constraint
+from constrained_types import UnmetConstraintError, ConstrainedInt, add_constraint
 
 
 @add_constraint(lambda x: x == 3, "Only 3 is 3")

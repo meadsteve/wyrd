@@ -16,7 +16,7 @@ class UnmetConstraintError(RuntimeError):
 
 def add_constraint(func: ConstraintFunc, err_msg: str):
     def decorate(original_class):
-        new_constraints = original_class._constraints + [(func, err_msg)]
+        new_constraints = [(func, err_msg)] + original_class._constraints
 
         class NewClass(original_class):  # type: ignore
             _constraints = new_constraints
