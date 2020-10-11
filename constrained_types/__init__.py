@@ -1,6 +1,13 @@
-from typing import Any, Tuple, Callable, List, ClassVar, Type
+from typing import Any, Tuple, Callable, List, ClassVar, Type, TypeVar
 
-ConstraintFunc = Callable[[int], bool]
+try:
+    from typing import Protocol
+except ImportError:
+    from typing_extensions import Protocol  # type: ignore
+
+T = TypeVar("T", bound="Constrained")
+
+ConstraintFunc = Callable[[T], bool]
 
 
 class UnmetConstraintError(RuntimeError):
@@ -19,7 +26,15 @@ def add_constraint(func: ConstraintFunc, err_msg: str):
     return decorate
 
 
-class ConstrainedInt(int):
+class Constrained(Protocol):
+    _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]]
+
+    @classmethod
+    def _validate(cls: Type[T], value: T):
+        ...
+
+
+class ConstrainedInt(int, Constrained):
     _raw_value: Any
     _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
 
@@ -29,7 +44,11 @@ class ConstrainedInt(int):
         self._validate(self)
 
     @classmethod
-    def _validate(cls, value: int):
-        for (is_valid, err_msg) in cls._constraints:
-            if not is_valid(value):
-                raise UnmetConstraintError(err_msg)
+    def _validate(cls: Type[T], value: T):
+        _validate(value, cls._constraints)
+
+
+def _validate(value: T, constraints: List[Tuple[ConstraintFunc, str]]):
+    for (is_valid, err_msg) in constraints:
+        if not is_valid(value):
+            raise UnmetConstraintError(err_msg)
