@@ -44,11 +44,3 @@ def test_if_a_constraint_isnt_met_on_construction_an_exception_is_raised(
     with pytest.raises(UnmetConstraintError) as err:
         cls(value)
     assert str(err.value) == expected_error
-
-
-@pytest.mark.parametrize(
-    "a,b", [(OneToTen(5), OneToTen(6)), (OneToTen(5), 6), (5, OneToTen(6))]
-)
-def test_adding_ints_together_keeps_the_constraints(a, b):
-    with pytest.raises(UnmetConstraintError):
-        a + b
