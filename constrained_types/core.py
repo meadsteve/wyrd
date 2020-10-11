@@ -16,6 +16,11 @@ class UnmetConstraintError(RuntimeError):
 
 def add_constraint(func: ConstraintFunc, err_msg: str):
     def decorate(original_class):
+        if not (
+            hasattr(original_class, "_constraints")
+            and hasattr(original_class, "_validate")
+        ):
+            raise SyntaxError("Class must implement Constrained protocol")
         new_constraints = [(func, err_msg)] + original_class._constraints
 
         class NewClass(original_class):  # type: ignore
