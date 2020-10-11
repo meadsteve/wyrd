@@ -47,6 +47,25 @@ class OrderId(ConstrainedString):
     pass
 ```
 
+## Works well with mypy (or other static type checkers)
+```python
+# The following will type check fine. OrderId is a real type
+def retrieve_order(order_id: OrderId):
+    ...
+```
+maybe something further down only accepts strings:
+
+```python
+def _fetch_item_from_db(table_name: str, item_id: str):
+    ...
+
+def retrieve_order(order_id: OrderId):
+    # The following will type check fine. OrderId extends str
+    return _fetch_item_from_db("orders", order_id)
+```
+
+
+
 ## Integrates with pydantic
 ```python
 @add_constraint(lambda x: x > 0, "Order must be at least 1")
