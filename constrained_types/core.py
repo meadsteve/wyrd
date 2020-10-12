@@ -16,7 +16,7 @@ class UnmetConstraintError(ValueError):
 
 
 def add_constraint(func: ConstraintFunc, err_msg: str):
-    def decorate(original_class):
+    def decorate(original_class: Type[Constrained]):
         _assert_implements_constrained_protocol(original_class)
         new_constraints = [(func, err_msg)] + original_class._constraints
 
@@ -28,8 +28,8 @@ def add_constraint(func: ConstraintFunc, err_msg: str):
     return decorate
 
 
-def cache_constraint_results(maxsize, typed=False):
-    def decorate(original_class):
+def cache_constraint_results(maxsize: int, typed=False):
+    def decorate(original_class: Type[Constrained]):
         _assert_implements_constrained_protocol(original_class)
 
         class NewClass(original_class):  # type: ignore
