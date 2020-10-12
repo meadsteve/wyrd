@@ -1,0 +1,15 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "constrained_types"
+author = "meadsteve"
+author-email = "meadsteve@gmail.com"
+requires-python="~=3.6"
+home-page = "https://github.com/meadsteve/constrained_types/"
+classifiers = ["License :: OSI Approved :: MIT License"]
+description-file = "README.md"
+requires = [
+    "typing-extensions; python_version == '3.6' or python_version == '3.7'",
+]

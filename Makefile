@@ -1,4 +1,4 @@
-.PHONY: setup setup_pipenv install update test test_mypy test_unit test_format format
+.PHONY: setup setup_pipenv install update test test_mypy test_unit test_format format publish
 PIPENV_VERBOSITY=-1
 
 setup: setup_pipenv install
@@ -27,3 +27,6 @@ test_format:
 
 format:
 	pipenv run black tests constrained_types
+
+publish:
+	./scripts/publish.sh
