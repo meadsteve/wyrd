@@ -1,5 +1,5 @@
 import functools
-from typing import TypeVar, Callable, ClassVar, List, Tuple, Type, Any
+from typing import TypeVar, ClassVar, List, Tuple, Type
 
 try:
     from typing import Protocol
