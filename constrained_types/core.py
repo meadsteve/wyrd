@@ -28,12 +28,13 @@ def add_constraint(func: Callable[[Any], bool], err_msg: str):
 
 
 def cache_constraint_results(maxsize: int, typed=False):
-    def decorate(original_class: Type[Constrained]):
+    def decorate(original_class: Type[Constrained[T]]):
         _assert_implements_constrained_protocol(original_class)
 
         class NewClass(original_class):  # type: ignore
+            @classmethod
             @functools.lru_cache(maxsize, typed)
-            def _validate(self, value):
+            def _validate(cls, value):
                 super()._validate(value)
 
         return NewClass
