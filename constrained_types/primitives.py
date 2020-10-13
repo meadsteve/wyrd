@@ -1,4 +1,4 @@
-from typing import Any, ClassVar, List, Tuple, Callable
+from typing import Any, ClassVar, List, Tuple
 
 from .core import Constrained, Constraint
 from .helpers import validate

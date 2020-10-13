@@ -1,4 +1,4 @@
-from typing import List, Tuple, TypeVar, Callable
+from typing import List, Tuple, TypeVar
 
 from .core import Constrained, UnmetConstraintError, Constraint
 
