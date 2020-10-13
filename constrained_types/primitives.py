@@ -1,18 +1,18 @@
-from typing import Any, ClassVar, List, Tuple, Type
+from typing import Any, ClassVar, List, Tuple, Callable
 
-from .core import Constrained, ConstraintFunc, T
+from .core import Constrained
 from .helpers import validate
 
 
-class ConstrainedInt(int, Constrained):
-    _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
+class ConstrainedInt(int, Constrained[int]):
+    _constraints: ClassVar[List[Tuple[Callable[[int], bool], str]]] = []
 
     def __init__(self, value: Any):
         super().__init__()
         self._validate(self)
 
     @classmethod
-    def _validate(cls: Type[T], value: T):
+    def _validate(cls, value):
         validate(value, cls._constraints)
 
     # For integration with pydantic
@@ -21,15 +21,15 @@ class ConstrainedInt(int, Constrained):
         yield cls._validate
 
 
-class ConstrainedString(str, Constrained):
-    _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
+class ConstrainedString(str, Constrained[str]):
+    _constraints: ClassVar[List[Tuple[Callable[[str], bool], str]]] = []
 
     def __init__(self, value: Any):
         super().__init__()
         self._validate(self)
 
     @classmethod
-    def _validate(cls: Type[T], value: T):
+    def _validate(cls, value):
         validate(value, cls._constraints)
 
     # For integration with pydantic
@@ -38,15 +38,15 @@ class ConstrainedString(str, Constrained):
         yield cls._validate
 
 
-class ConstrainedFloat(float, Constrained):
-    _constraints: ClassVar[List[Tuple[ConstraintFunc, str]]] = []
+class ConstrainedFloat(float, Constrained[float]):
+    _constraints: ClassVar[List[Tuple[Callable[[float], bool], str]]] = []
 
     def __init__(self, value: Any):
         super().__init__()
         self._validate(self)
 
     @classmethod
-    def _validate(cls: Type[T], value: T):
+    def _validate(cls, value):
         validate(value, cls._constraints)
 
     # For integration with pydantic
