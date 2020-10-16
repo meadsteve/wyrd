@@ -14,7 +14,7 @@ checks_made = 0
 def some_expensive_check(value):
     global checks_made
     checks_made = checks_made + 1
-    return value == "hello" or value == "bye"
+    return value in ["hello", "bye"]
 
 
 @add_constraint(some_expensive_check, "must be the string hello or bye")
