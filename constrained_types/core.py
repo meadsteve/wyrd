@@ -40,6 +40,7 @@ def add_constraint(func: Constraint[T], err_msg: str):
         class NewClass(original_class):  # type: ignore
             _constraints = new_constraints
 
+        NewClass.__name__ = original_class.__name__
         return NewClass
 
     return decorate
@@ -55,6 +56,7 @@ def cache_constraint_results(maxsize: int, typed=False):
             def _validate(cls, value):
                 super()._validate(value)
 
+        NewClass.__name__ = original_class.__name__
         return NewClass
 
     return decorate
