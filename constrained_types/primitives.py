@@ -18,7 +18,7 @@ class ConstrainedInt(int, Constrained[int]):
     # For integration with pydantic
     @classmethod
     def __get_validators__(cls):
-        yield cls._validate
+        yield lambda v: cls(v)
 
 
 class ConstrainedString(str, Constrained[str]):
@@ -35,7 +35,7 @@ class ConstrainedString(str, Constrained[str]):
     # For integration with pydantic
     @classmethod
     def __get_validators__(cls):
-        yield cls._validate
+        yield lambda v: cls(v)
 
 
 class ConstrainedFloat(float, Constrained[float]):
@@ -52,4 +52,4 @@ class ConstrainedFloat(float, Constrained[float]):
     # For integration with pydantic
     @classmethod
     def __get_validators__(cls):
-        yield cls._validate
+        yield lambda v: cls(v)

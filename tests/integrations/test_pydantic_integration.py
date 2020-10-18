@@ -27,3 +27,10 @@ def test_pydantic_passes_on_validation_failure_as_expected_for_ints():
 def test_pydantic_passes_on_validation_failure_as_expected_for_strs():
     with pytest.raises(ValidationError):
         _hackor = Order(book_quantity=2, book_id="drop table lol")
+
+
+def test_pydantic_accepts_the_extended_types():
+    order = Order(book_quantity=OrderQuantity(2), book_id=BookId("abcd"))
+    assert isinstance(order, Order)
+    assert order.book_quantity == 2
+    assert order.book_id == "abcd"
