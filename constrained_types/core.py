@@ -1,5 +1,5 @@
 import functools
-from typing import TypeVar, ClassVar, List, Tuple, Type
+from typing import TypeVar, ClassVar, List, Tuple, Type, Callable
 
 try:
     from typing import Protocol
@@ -32,8 +32,10 @@ class UnmetConstraintError(ValueError):
         self.failing_constraint = failing_constraint
 
 
-def add_constraint(func: Constraint[T], err_msg: str):
-    def decorate(original_class: Type[Constrained[T]]):
+def add_constraint(
+    func: Constraint[T], err_msg: str
+) -> Callable[[Type[Constrained[T]]], Type[Constrained[T]]]:
+    def decorate(original_class: Type[Constrained[T]]) -> Type[Constrained[T]]:
         _assert_implements_constrained_protocol(original_class)
         new_constraints = [(func, err_msg)] + original_class._constraints
 
@@ -46,8 +48,10 @@ def add_constraint(func: Constraint[T], err_msg: str):
     return decorate
 
 
-def cache_constraint_results(maxsize: int, typed=False):
-    def decorate(original_class: Type[Constrained[T]]):
+def cache_constraint_results(
+    maxsize: int, typed=False
+) -> Callable[[Type[Constrained[T]]], Type[Constrained[T]]]:
+    def decorate(original_class: Type[Constrained[T]]) -> Type[Constrained[T]]:
         _assert_implements_constrained_protocol(original_class)
 
         class NewClass(original_class):  # type: ignore

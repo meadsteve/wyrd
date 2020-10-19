@@ -8,7 +8,7 @@ def test_fails_if_you_add_constraints_to_a_plain_class():
         pass
 
     with pytest.raises(SyntaxError):
-        add_constraint(lambda x: True, "always okay")(NormalClass)
+        add_constraint(lambda x: True, "always okay")(NormalClass)  # type: ignore
 
 
 def test_fails_if_you_add_constraints_to_a_plain_class_even_if_it_has_constrains():
@@ -16,7 +16,7 @@ def test_fails_if_you_add_constraints_to_a_plain_class_even_if_it_has_constrains
         _constraints = []
 
     with pytest.raises(SyntaxError):
-        add_constraint(lambda x: True, "always okay")(NormalClass)
+        add_constraint(lambda x: True, "always okay")(NormalClass)  # type: ignore
 
 
 def test_decorated_class_keeps_its_name():
