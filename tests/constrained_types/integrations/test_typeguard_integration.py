@@ -1,7 +1,7 @@
 import pytest
 from typeguard import typechecked
 
-from constrained_types import ConstrainedInt, add_constraint
+from wyrd.constrained_types import ConstrainedInt, add_constraint
 
 
 @add_constraint(lambda x: x > 0, "must be at least 1")

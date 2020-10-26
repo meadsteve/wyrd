@@ -1,6 +1,6 @@
 import pytest
 
-from constrained_types import (
+from wyrd.constrained_types import (
     ConstrainedString,
     cache_constraint_results,
     add_constraint,

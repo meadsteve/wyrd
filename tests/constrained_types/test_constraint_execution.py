@@ -1,7 +1,7 @@
 import pytest
 
-from constrained_types import add_constraint, ConstrainedString, UnmetConstraintError
-from constrained_types.helpers import validate
+from wyrd.constrained_types import ConstrainedString, UnmetConstraintError
+from wyrd.constrained_types.helpers import validate
 
 
 def some_complicated_check(_value):

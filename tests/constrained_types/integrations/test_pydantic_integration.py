@@ -1,7 +1,7 @@
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from constrained_types import add_constraint, ConstrainedString, ConstrainedInt
+from wyrd.constrained_types import add_constraint, ConstrainedString, ConstrainedInt
 
 
 @add_constraint(lambda x: x > 0, "Order must be at least 1")

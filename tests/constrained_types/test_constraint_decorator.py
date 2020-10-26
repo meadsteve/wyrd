@@ -1,6 +1,6 @@
 import pytest
 
-from constrained_types import add_constraint, ConstrainedInt
+from wyrd.constrained_types import add_constraint, ConstrainedInt
 
 
 def test_fails_if_you_add_constraints_to_a_plain_class():

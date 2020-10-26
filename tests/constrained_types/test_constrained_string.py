@@ -1,6 +1,10 @@
 import pytest
 
-from constrained_types import UnmetConstraintError, ConstrainedString, add_constraint
+from wyrd.constrained_types import (
+    UnmetConstraintError,
+    ConstrainedString,
+    add_constraint,
+)
 
 
 @add_constraint(lambda x: x == "steve", "Only steve is steve")
