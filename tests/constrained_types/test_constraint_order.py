@@ -1,6 +1,10 @@
 import pytest
 
-from constrained_types import add_constraint, ConstrainedString, UnmetConstraintError
+from wyrd.constrained_types import (
+    add_constraint,
+    ConstrainedString,
+    UnmetConstraintError,
+)
 
 
 @add_constraint(lambda x: len(x) >= 2, "must be longer than 2 chars")

@@ -1,4 +1,7 @@
-# Constrained Types
+# Wyrd - Helpers for Domain driven security
+
+
+## Constrained Types
 
 Statement: Nothing should ever really be modelled as any String or any integer.
 

@@ -1,6 +1,10 @@
 import pytest
 
-from constrained_types import UnmetConstraintError, ConstrainedFloat, add_constraint
+from wyrd.constrained_types import (
+    UnmetConstraintError,
+    ConstrainedFloat,
+    add_constraint,
+)
 
 
 @add_constraint(lambda x: x == 3.0, "Pi is exactly 3")
