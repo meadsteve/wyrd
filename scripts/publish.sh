@@ -2,7 +2,7 @@
 
 set -ex
 
-version=`pipenv run python constrained_types/version.py`
+version=`pipenv run python wyrd/version.py`
 
 git fetch --tags
 
