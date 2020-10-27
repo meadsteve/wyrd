@@ -6,7 +6,7 @@
 Statement: Nothing should ever really be modelled as any String or any integer.
 
 
-## Example
+#### Example
 A user wants to order a number of books. Can it be zero? Can it be negative?
 ```python
 @add_constraint(lambda x: x > 0, "Order must be at least 1")
@@ -26,7 +26,7 @@ quantity = OrderQuantity(-1)
 # !! raises ValueError
 ```
 
-## Multiple constraints
+### Multiple constraints
 ```python
 @add_constraint(lambda x: x > 0, "Order must be at least 1")
 @add_constraint(lambda x: x < 200, "Our shipping system can't send more then 200")
@@ -37,7 +37,7 @@ class OrderQuantity(ConstrainedInt):
 In addition the constraints are guaranteed to execute in order so any
 expensive checks to run can be listed further down.
 
-## Cache results
+### Cache results
 If you expect the same value multiple times you can add caching for
 the validation. The actual caching is passed to `functools.lru_cache`.
 
@@ -50,7 +50,7 @@ class OrderId(ConstrainedString):
     pass
 ```
 
-## Works well with mypy (or other static type checkers)
+### Works well with mypy (or other static type checkers)
 ```python
 # The following will type check fine. OrderId is a real type
 def retrieve_order(order_id: OrderId):
@@ -69,7 +69,7 @@ def retrieve_order(order_id: OrderId):
 
 
 
-## Integrates with pydantic
+### Integrates with pydantic
 ```python
 @add_constraint(lambda x: x > 0, "Order must be at least 1")
 class OrderQuantity(ConstrainedInt):
@@ -86,7 +86,7 @@ class Order(BaseModel):
     book_id: BookId
 ```
 
-### Why not use the pydantic version of these constrained types?
+#### Why not use the pydantic version of these constrained types?
 The pydantic types only really work with pydantic. Invalid instances
 can be created by constructing directly. Since constraint checking
 is triggered by the constructor the constraints will *always* be
