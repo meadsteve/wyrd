@@ -1,5 +1,9 @@
 # Wyrd - Helpers for Domain driven security
 
+Wyrd provides the following tools to help write more secure code:
+
+* Constrained Types - Extensions to primitive types (float, int and str) add extra validation rules on the values
+* Read Once wrapper - Wraps any data and ensures that the value can only be accessed a single time. Helps prevent data ending up leaking into the wrong places.
 
 ## Constrained Types
 
@@ -91,3 +95,7 @@ The pydantic types only really work with pydantic. Invalid instances
 can be created by constructing directly. Since constraint checking
 is triggered by the constructor the constraints will *always* be
 true for any instance of the class.
+
+## Read Once
+
+TODO: write docs
