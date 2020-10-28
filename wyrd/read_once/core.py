@@ -25,6 +25,12 @@ class ReadOnce(Generic[T]):
         finally:
             self._lock.release()
 
+    def __str__(self):
+        return str(self.get_contents())
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}<{self.type.__name__}>"
+
     @property
     def type(self) -> Type[T]:
         return type(self.__value)

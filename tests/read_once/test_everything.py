@@ -23,3 +23,25 @@ def test_type_information_can_still_be_accessed():
 def test_an_isinstance_equiv_is_provided():
     assert ReadOnce("hello - only once").isinstance(str)
     assert ReadOnce(5).isinstance(object)
+
+
+def test_turning_it_into_a_string_turns_the_underlying_value_into_a_string():
+    something = ReadOnce("the actual value")
+    assert str(something) == "the actual value"
+
+
+def test_turning_it_into_a_string_only_works_once():
+    something = ReadOnce("the actual value")
+    _first_usage = str(something)
+    with pytest.raises(RuntimeError):
+        _second_usage = str(something)
+
+
+def test_it_can_be_used_in_f_strings():
+    something = ReadOnce("Hello!")
+    assert f"you said: {something}" == "you said: Hello!"
+
+
+def test_the_repr_it_returns_indicates_the_type():
+    something = ReadOnce("Hello!")
+    assert repr(something) == "ReadOnce<str>"
