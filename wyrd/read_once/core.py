@@ -18,7 +18,7 @@ class ReadOnce(Generic[T]):
             self._lock.acquire()
             if self.has_been_read:
                 raise RuntimeError(
-                    "Attempted to read a ReadOnce value for the second time"
+                    f"Attempted to read {repr(self)} value for a second time"
                 )
             self.has_been_read = True
             return self.__value
