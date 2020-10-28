@@ -1,11 +1,11 @@
-from typing import Any, ClassVar, List, Tuple
+from typing import Any, ClassVar, List
 
 from .core import Constrained, Constraint
 from .helpers import validate
 
 
 class ConstrainedInt(int, Constrained[int]):
-    _constraints: ClassVar[List[Tuple[Constraint[int], str]]] = []
+    _constraints: ClassVar[List[Constraint]] = []
 
     def __init__(self, value: Any):
         super().__init__()
@@ -22,7 +22,7 @@ class ConstrainedInt(int, Constrained[int]):
 
 
 class ConstrainedString(str, Constrained[str]):
-    _constraints: ClassVar[List[Tuple[Constraint[str], str]]] = []
+    _constraints: ClassVar[List[Constraint]] = []
 
     def __init__(self, value: Any):
         super().__init__()
@@ -39,7 +39,7 @@ class ConstrainedString(str, Constrained[str]):
 
 
 class ConstrainedFloat(float, Constrained[float]):
-    _constraints: ClassVar[List[Tuple[Constraint[float], str]]] = []
+    _constraints: ClassVar[List[Constraint]] = []
 
     def __init__(self, value: Any):
         super().__init__()

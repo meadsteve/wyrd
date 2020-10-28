@@ -1,5 +1,5 @@
 import functools
-from typing import TypeVar, ClassVar, List, Tuple, Type, Callable
+from typing import TypeVar, ClassVar, List, Tuple, Type, Callable, Any
 
 try:
     from typing import Protocol
@@ -7,17 +7,15 @@ except ImportError:
     from typing_extensions import Protocol  # type: ignore
 
 
-T = TypeVar("T")
-U = TypeVar("U", contravariant=True)
+T = TypeVar("T", contravariant=True)
 
 
-class Constraint(Protocol[U]):
-    def __call__(self, value: U) -> bool:
-        ...
+ConstraintFunc = Callable[[Any], bool]
+Constraint = Tuple[ConstraintFunc, str]
 
 
 class Constrained(Protocol[T]):
-    _constraints: ClassVar[List[Tuple[Constraint[T], str]]]
+    _constraints: ClassVar[List[Constraint]]
 
     @classmethod
     def _validate(cls: Type[T], value: T):
@@ -25,15 +23,15 @@ class Constrained(Protocol[T]):
 
 
 class UnmetConstraintError(ValueError):
-    failing_constraint: Constraint
+    failing_constraint: Any
 
-    def __init__(self, msg: str, failing_constraint: Constraint):
+    def __init__(self, msg: str, failing_constraint: ConstraintFunc):
         super().__init__(msg)
         self.failing_constraint = failing_constraint
 
 
 def add_constraint(
-    func: Constraint[T], err_msg: str
+    func: Callable[[Any], bool], err_msg: str
 ) -> Callable[[Type[Constrained[T]]], Type[Constrained[T]]]:
     def decorate(original_class: Type[Constrained[T]]) -> Type[Constrained[T]]:
         _assert_implements_constrained_protocol(original_class)

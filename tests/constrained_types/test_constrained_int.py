@@ -8,8 +8,16 @@ class NumberThree(ConstrainedInt):
     pass
 
 
-@add_constraint(lambda x: x >= 1, "must be greater than or equal to 1")
-@add_constraint(lambda x: x <= 10, "must be less than or equal to 10")
+def one_or_greater(x: int) -> bool:
+    return x >= 1
+
+
+def ten_or_less(x: int) -> bool:
+    return x <= 10
+
+
+@add_constraint(one_or_greater, "must be greater than or equal to 1")
+@add_constraint(ten_or_less, "must be less than or equal to 10")
 class OneToTen(ConstrainedInt):
     pass
 

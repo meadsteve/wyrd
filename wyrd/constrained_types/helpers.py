@@ -1,11 +1,9 @@
-from typing import List, Tuple, TypeVar
+from typing import List
 
 from .core import Constrained, UnmetConstraintError, Constraint
 
-T = TypeVar("T", bound=Constrained)
 
-
-def validate(value: T, constraints: List[Tuple[Constraint[T], str]]):
+def validate(value: Constrained, constraints: List[Constraint]):
     for (is_valid, err_msg) in constraints:
         try:
             valid = is_valid(value)
