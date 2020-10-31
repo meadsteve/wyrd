@@ -37,3 +37,19 @@ class ReadOnce(Generic[T]):
 
     def isinstance(self, t: Type) -> bool:
         return isinstance(self.__value, t)
+
+    # Pydantic integration follows
+    @classmethod
+    def __get_validators__(cls):
+        yield cls._pydantic_validate
+
+    @classmethod
+    def _pydantic_validate(cls, raw_value, field):
+        # Defer to the inner model type to validate
+        if not field.sub_fields:
+            raise SyntaxError("No inner field type specified")
+        value, error = field.sub_fields[0].validate(raw_value, {}, loc='')
+        if error:
+            raise error
+        # If everything was okay wrap the inner type with ReadOnce
+        return cls(value)
