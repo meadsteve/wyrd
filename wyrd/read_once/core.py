@@ -1,7 +1,10 @@
 from threading import Lock
-from typing import TypeVar, Generic, Type
+from typing import TypeVar, Generic, Type, TYPE_CHECKING
 
 T = TypeVar("T")
+
+if TYPE_CHECKING:
+    from pydantic.fields import ModelField
 
 
 class ReadTwiceError(RuntimeError):
@@ -40,3 +43,18 @@ class ReadOnce(Generic[T]):
 
     def isinstance(self, t: Type) -> bool:
         return isinstance(self.__value, t)
+
+    # Work with pydantic
+    @classmethod
+    def validate(cls, v, field: "ModelField"):
+        if not field.sub_fields:
+            return cls(v)
+        inner_type = field.sub_fields[0]
+        parsed_value, error = inner_type.validate(v, {}, loc="inner?")
+        if error or parsed_value is None:
+            raise RuntimeError(f"Unable to construct ReadOnce field")
+        return cls(parsed_value)
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
