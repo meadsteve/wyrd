@@ -4,6 +4,11 @@ from typing import TypeVar, Generic, Type
 T = TypeVar("T")
 
 
+class ReadTwiceError(RuntimeError):
+    def __init__(self, thing: "ReadOnce"):
+        super().__init__(f"Attempted to read {repr(thing)} value for a second time")
+
+
 class ReadOnce(Generic[T]):
     has_been_read: bool = False
     _lock: Lock
@@ -17,9 +22,7 @@ class ReadOnce(Generic[T]):
         try:
             self._lock.acquire()
             if self.has_been_read:
-                raise RuntimeError(
-                    f"Attempted to read {repr(self)} value for a second time"
-                )
+                raise ReadTwiceError(self)
             self.has_been_read = True
             return self.__value
         finally:
