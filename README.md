@@ -98,4 +98,23 @@ true for any instance of the class.
 
 ## Read Once
 
-TODO: write docs
+This object helps make sure sensitive values don't leak out by accident.
+Accessing the contents for a second time will trigger an exception.
+
+```python
+# Set the content
+sensitive = ReadOnce("hello - only once")
+
+# Access the content - works fine
+sensitive.get_contents()
+
+# !! RAISES ReadTwiceError exception !!
+sensitive.get_contents()
+```
+
+### Integrates with pydantic
+
+```python
+class SomeData(BaseModel):
+    secret: ReadOnce[str]
+```
