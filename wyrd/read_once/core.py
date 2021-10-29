@@ -40,6 +40,16 @@ class ReadOnce(Generic[T]):
     def __getstate__(self):
         raise RuntimeError("ReadOnce objects can not be pickled")
 
+    def __eq__(self, other):
+        if isinstance(other, ReadOnce):
+            return self.__value == other.__value
+        raise RuntimeError(
+            "ReadOnce objects can only be compared to other ReadOnce objects"
+        )
+
+    def __hash__(self):
+        return hash(self.__value)
+
     @property
     def type(self) -> Type[T]:
         return type(self.__value)
