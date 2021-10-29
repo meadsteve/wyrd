@@ -1,3 +1,5 @@
+import pickle
+
 import pytest
 
 from wyrd.read_once import ReadOnce
@@ -54,3 +56,9 @@ def test_it_can_be_used_in_f_strings():
 def test_the_repr_it_returns_indicates_the_type():
     something = ReadOnce("Hello!")
     assert repr(something) == "ReadOnce<str>"
+
+
+def test_they_cannot_be_pickled():
+    contents = ReadOnce("the actual value")
+    with pytest.raises(RuntimeError):
+        pickle.dumps(contents)

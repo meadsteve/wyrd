@@ -37,6 +37,9 @@ class ReadOnce(Generic[T]):
     def __repr__(self):
         return f"{self.__class__.__name__}<{self.type.__name__}>"
 
+    def __getstate__(self):
+        raise RuntimeError("ReadOnce objects can not be pickled")
+
     @property
     def type(self) -> Type[T]:
         return type(self.__value)
