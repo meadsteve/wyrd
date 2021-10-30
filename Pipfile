@@ -11,5 +11,3 @@ pydantic = "~=1.6"
 flit = "~=3.0"
 typeguard = "~=2.9"
 
-[packages]
-typing-extensions = "*"

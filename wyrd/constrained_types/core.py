@@ -2,11 +2,6 @@ import functools
 from abc import ABC, abstractmethod
 from typing import TypeVar, ClassVar, List, Tuple, Type, Callable, Any, Generic
 
-try:
-    from typing import Protocol
-except ImportError:
-    from typing_extensions import Protocol  # type: ignore
-
 
 T = TypeVar("T", contravariant=True)
 
