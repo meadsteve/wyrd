@@ -1,16 +1,6 @@
 import functools
-from typing import TypeVar, ClassVar, List, Tuple, Type, Callable, Any
-
-try:
-    from typing import Protocol
-except ImportError:
-    from typing_extensions import Protocol  # type: ignore
-
-
-try:
-    from typing import runtime_checkable
-except ImportError:
-    from typing_extensions import runtime_checkable  # type: ignore
+from abc import ABC, abstractmethod
+from typing import TypeVar, ClassVar, List, Tuple, Type, Callable, Any, Generic
 
 
 T = TypeVar("T", contravariant=True)
@@ -20,11 +10,11 @@ ConstraintFunc = Callable[[Any], bool]
 Constraint = Tuple[ConstraintFunc, str]
 
 
-@runtime_checkable
-class Constrained(Protocol[T]):
+class Constrained(ABC, Generic[T]):
     _constraints: ClassVar[List[Constraint]]
 
     @classmethod
+    @abstractmethod
     def _validate(cls: Type[T], value: T):
         ...
 
