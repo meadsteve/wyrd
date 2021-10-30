@@ -7,6 +7,12 @@ except ImportError:
     from typing_extensions import Protocol  # type: ignore
 
 
+try:
+    from typing import runtime_checkable
+except ImportError:
+    from typing_extensions import runtime_checkable  # type: ignore
+
+
 T = TypeVar("T", contravariant=True)
 
 
@@ -14,6 +20,7 @@ ConstraintFunc = Callable[[Any], bool]
 Constraint = Tuple[ConstraintFunc, str]
 
 
+@runtime_checkable
 class Constrained(Protocol[T]):
     _constraints: ClassVar[List[Constraint]]
 

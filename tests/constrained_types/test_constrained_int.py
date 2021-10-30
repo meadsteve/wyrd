@@ -27,7 +27,14 @@ def test_its_equal_to_an_int():
 
 
 def test_it_sums_like_an_int():
-    assert ConstrainedInt(5) + ConstrainedInt(6) == ConstrainedInt(11)
+    assert ConstrainedInt(5) + ConstrainedInt(6) == 11
+
+
+def test_summing_results_in_a_int_type_not_a_constrained_type():
+    # Otherwise we end up with values outside the allowed range
+    result = OneToTen(5) + OneToTen(6)
+    assert not isinstance(result, OneToTen)
+    assert isinstance(result, int)
 
 
 @pytest.mark.parametrize(

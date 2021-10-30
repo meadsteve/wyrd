@@ -18,14 +18,18 @@ class ShortString(ConstrainedString):
     pass
 
 
-def test_its_equal_to_an_int():
+def test_its_equal_to_a_string():
     assert ConstrainedString("boop") == "boop"
 
 
 def test_it_concats_like_a_string():
-    assert ConstrainedString("hello") + ConstrainedString(" you") == ConstrainedString(
-        "hello you"
-    )
+    assert ConstrainedString("hello") + ConstrainedString(" you") == "hello you"
+
+
+def test_concatanation_returns_a_plain_string():
+    result = ConstrainedString("hello") + ConstrainedString(" you")
+    assert isinstance(result, str)
+    assert not isinstance(result, ConstrainedString)
 
 
 @pytest.mark.parametrize(
