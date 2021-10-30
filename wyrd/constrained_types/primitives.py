@@ -8,7 +8,7 @@ class ConstrainedInt(int, Constrained[int]):
     _constraints: ClassVar[List[Constraint]] = []
 
     def __init__(self, value: Any):
-        super().__init__()
+        super(int, self).__init__()
         self._validate(self)
 
     @classmethod
@@ -25,7 +25,7 @@ class ConstrainedString(str, Constrained[str]):
     _constraints: ClassVar[List[Constraint]] = []
 
     def __init__(self, value: Any):
-        super().__init__()
+        super(str, self).__init__()
         self._validate(self)
 
     @classmethod
@@ -42,7 +42,7 @@ class ConstrainedFloat(float, Constrained[float]):
     _constraints: ClassVar[List[Constraint]] = []
 
     def __init__(self, value: Any):
-        super().__init__()
+        super(float, self).__init__()
         self._validate(self)
 
     @classmethod
